@@ -17,12 +17,6 @@
 #define MAX_ACID 0
 #define MIN_ACID 14
 #define MAX_HUE 255
-#define MIN_RED 41
-#define MIN_BLUE 109
-
-#define GREEN_POLY_ARG1 -3.1743
-#define GREEN_POLY_ARG2 34.5929
-#define GREEN_POLY_ARG3 101.8214
 
 DFRobot_PH ph;
 DHT dht(DHT_PIN, DHTTYPE);
@@ -61,10 +55,6 @@ void loop()
     Serial.println(temp);
   }
 
-  // if (digitalRead(WATERDET_PIN))
-  // {
-  //   Serial.println("WATER DETECT");
-  // }
   Serial.println(digitalRead(WATERDET_PIN));
 
   // Only start taking readings upon water detection
@@ -77,15 +67,13 @@ void loop()
     Serial.print("pH Level: ");
     Serial.println(phValue);
 
-    int red = map(phValue, MAX_ACID, MIN_ACID, MAX_HUE, MIN_RED);
-    int blue = map(phValue, MAX_ACID, MIN_ACID, MAX_HUE, MIN_BLUE);
-    int green = (GREEN_POLY_ARG1 * pow(phValue, 2)) + (GREEN_POLY_ARG2 * phValue) + GREEN_POLY_ARG3;
-    // REPLACE GREEN IF IT DOESN'T WORK
+    int red = map(phValue, MAX_ACID, MIN_ACID, MAX_HUE, 0);
+    int blue = map(phValue, MAX_ACID, MIN_ACID, 0, MAX_HUE);
 
     // Light up the Strip like a Litmus Paper
     for (uint8_t i = 0; i < NEO_LED; i++)
     {
-      litmus_strip.setPixelColor(i, red, green, blue);
+      litmus_strip.setPixelColor(i, red, 0, blue);
     }
     litmus_strip.show();
     stripSet = true;
