@@ -44,7 +44,7 @@ void loop()
 {
   static float temp = 0;
   static long lastReadTemp, lastReadpH = millis();
-  static bool stripSet = false;
+  static bool stripSet = true;
 
   // Get temperature to use for pH reading every 5 sec
   if (millis() - lastReadTemp > FIVE_SEC)
